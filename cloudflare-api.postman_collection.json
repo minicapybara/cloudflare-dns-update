@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "bad4b33c-0aa1-49fc-84fc-d1f9eee5264c",
+		"name": "cloudflare-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25171780"
+	},
+	"item": [
+		{
+			"name": "list-dns-records",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{api_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Auth-Email",
+						"value": ""
+					}
+				],
+				"url": {
+					"raw": "https://api.cloudflare.com/client/v4/zones/{{zone_id}}/dns_records",
+					"protocol": "https",
+					"host": [
+						"api",
+						"cloudflare",
+						"com"
+					],
+					"path": [
+						"client",
+						"v4",
+						"zones",
+						"{{zone_id}}",
+						"dns_records"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check-ip-aws",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://checkip.amazonaws.com",
+					"protocol": "http",
+					"host": [
+						"checkip",
+						"amazonaws",
+						"com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update-dns-record",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{api_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Auth-Email",
+						"value": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"comment\": \"Postman Test\",\n  \"content\": \"198.51.100.105\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.cloudflare.com/client/v4/zones/{{zone_id}}/dns_records/{{dns_id}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"cloudflare",
+						"com"
+					],
+					"path": [
+						"client",
+						"v4",
+						"zones",
+						"{{zone_id}}",
+						"dns_records",
+						"{{dns_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "zone_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "api_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "dns_id",
+			"value": ""
+		}
+	]
+}

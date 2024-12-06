@@ -45,7 +45,7 @@ options:
 
 ```sh
 # runs every 5 minutes
-*/5 * * *  /path/to/venv/python3 /path/to/script/cloudflare.py
+*/5 * * * * /path/to/venv/python3 /path/to/script/cloudflare.py
 ```
 
 
@@ -63,3 +63,7 @@ Setup logrotate for the program (Optional). Create file with below contents name
     notifempty          # Don't rotate empty log files
 }
 ```
+
+## Cloudflare API Reference
+
+[Cloudflare API Docs](https://developers.cloudflare.com/api-next/resources/dns/subresources/records/)
