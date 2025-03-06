@@ -151,5 +151,3 @@ if __name__ == '__main__':
             continue 
         
         update_dns_record(record, ip)
-
-
