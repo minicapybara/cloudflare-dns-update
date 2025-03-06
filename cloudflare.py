@@ -89,6 +89,23 @@ def update_dns_record(record, ip):
     except Exception as e:
         logging.error(f"update_dns_record(): {e}")
 
+def should_update_record(record_name):
+    # added debug logging, showing the record name and the configured record list
+    logging.debug(f"Checking if record '{record_name}' should be updated")
+    logging.debug(f"Configured records to update: {config.dns_records_to_update}")
+    
+    # if no specific records are configured, update all records
+    if not config.dns_records_to_update:
+        logging.debug("No specific records configured, updating all records")
+        return True
+    
+    # exact match check
+    is_match = record_name in config.dns_records_to_update
+    logging.debug(f"Exact match check result: {is_match}")
+    
+    # Returns exact match results
+    return is_match
+
 if __name__ == '__main__':
     # args  
     parser = argparse.ArgumentParser()
@@ -98,6 +115,14 @@ if __name__ == '__main__':
     # logger 
     setup_logger(config.log_path, config.log_level)
 
+    # output current configuration information
+    logging.info(f"Starting Cloudflare DNS updater")
+    logging.info(f"DNS records to update: {config.dns_records_to_update or 'ALL RECORDS'}")
+    
+    # check if the environment variables are loaded correctly
+    raw_dns_env = os.getenv('DNS_RECORDS_TO_UPDATE')
+    logging.info(f"Raw DNS_RECORDS_TO_UPDATE env value: '{raw_dns_env}'")
+
     # get ip 
     ip = get_public_ip()
     logging.info(f"current ip: {ip}")
@@ -106,10 +131,23 @@ if __name__ == '__main__':
     records = get_dns_records()
     logging.debug(f"get_dns_records: {records}")
 
+    # log info about which records will be updated
+    if config.dns_records_to_update:
+        logging.info(f"Only updating specific DNS records: {', '.join(config.dns_records_to_update)}")
+    else:
+        logging.info("No specific DNS records configured. Will update all records.")
+
     for record in records:
+        record_name = record.get("name")
+        
+        # skip records not in the specified list
+        if not should_update_record(record_name):
+            logging.info(f"Skipping {record_name} as it's not in the configured list of records to update")
+            continue
+            
         # skip if ip is not changed
         if ip == record.get("content") and not args.force:
-            logging.info(f"ip is not changed, skipping {record['name']}")
+            logging.info(f"ip is not changed, skipping {record_name}")
             continue 
         
         update_dns_record(record, ip)

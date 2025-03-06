@@ -26,6 +26,11 @@ ZONE_ID=
 # cloudflare api token
 # permission: zone, dns, edit
 API_TOKEN=
+# new configuration: Specify the DNS records to be updated, separate multiple records with commas
+# for example: update only api.example.com and www.example.com
+# DNS_RECORDS_TO_UPDATE=api.example.com,www.example.com
+# if `DNS_RECORDS_TO_UPDATE` is empty or not set, the script will proceed to update all DNS records (maintaining the old behavior)
+DNS_RECORDS_TO_UPDATE=
 ```
 
 
