@@ -6,10 +6,16 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    volumes:
-      - ./logs:/app/logs
     environment:
       - ZONE_ID=${ZONE_ID}
       - API_TOKEN=${API_TOKEN}
-      - DNS_RECORDS_TO_UPDATE=${DNS_RECORDS_TO_UPDATE}
+      - ALLOW_LIST=${ALLOW_LIST}
+      - DENY_LIST=${DENY_LIST}
+    volumes:
+      - ./logs:/app/logs
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     restart: unless-stopped 
